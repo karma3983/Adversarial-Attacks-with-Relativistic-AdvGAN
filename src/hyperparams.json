@@ -1,7 +1,7 @@
 {
 	"comment" : "Settings for Target Model", 
 
-	"target_dataset" : "CIFAR10", 
+	"target_dataset" : "MNIST", 
 	"target_learning_rate" : 0.001, 
 	"target_model_epochs" : 60, 
 
