@@ -237,9 +237,34 @@ def test_attack_performance(target, dataloader, mode, adv_GAN, target_model, bat
     print(target)
     print('Correctly Classified: ', n_correct.item())
     print('Accuracy under attacks in {} {} set: {}%\n'.format(target, mode, 100 * n_correct.item()/dataset_size))
+    
+    # pltの表示（追加）----------------------------------------------------------------------------------------------------------------
+    n = 0
+    one = 1
+    two = 2
+    plt.figure(figsize=(24,12))
+    for i in range(9):
+        # print("real Num",i+1)
+
+        plt.subplot(3,6,one)
+        one = one + 2
+
+        # 本物の画像とラベル
+        plt.imshow(img[i].cpu().detach().numpy().reshape(28,28))
+        plt.title("label: {}".format(true_label[i].item()), fontsize=18) #タイトル
+        plt.gray()
+
+        two = two + 2
+        
+        # 偽物の画像と予測値（予測ラベル）
+        plt.imshow(cur_img[i].cpu().detach().numpy().reshape(28,28))
+        plt.title("pred label: {}".format(pred_label[i].item()), fontsize=18) #タイトル
+        plt.gray()  
+
+    plt.show()
 
 
-# print('ここから実行----------------------------------------------------------------------------------------------------')
+# ここから実行----------------------------------------------------------------------------------------------------
 
 # print('\nLOADING CONFIGURATIONS...')
 print('\n設定をロード中...')
