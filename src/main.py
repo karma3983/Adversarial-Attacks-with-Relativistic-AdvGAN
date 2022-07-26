@@ -239,35 +239,41 @@ def test_attack_performance(target, dataloader, mode, adv_GAN, target_model, bat
     print('Accuracy under attacks in {} {} set: {}%\n'.format(target, mode, 100 * n_correct.item()/dataset_size))
 
 
+print('ここから実行----------------------------------------------------------------------------------------------------')
 
-
-print('\nLOADING CONFIGURATIONS...')
+# print('\nLOADING CONFIGURATIONS...')
+print('\n設定をロード中...')
 TARGET, LR_TARGET_MODEL, EPOCHS_TARGET_MODEL, L_INF_BOUND, EPOCHS, LR, ALPHA, BETA, GAMMA, KAPPA, C, N_STEPS_D, N_STEPS_G, IS_RELATIVISTIC = load_hyperparameters('hyperparams.json')
 
 
-print('\nCREATING NECESSARY DIRECTORIES...')
+# print('\nCREATING NECESSARY DIRECTORIES...')
+print('\n必要なディレクトリを作成中...')
 create_dirs()
 
 
 # Define what device we are using
-print('\nCHECKING FOR CUDA...')
+# print('\nCHECKING FOR CUDA...')
+print('\nCUDAをチェック中...')
 use_cuda = True
 print('CUDA Available: ',torch.cuda.is_available())
 device = torch.device('cuda' if (use_cuda and torch.cuda.is_available()) else 'cpu')
 
 
-print('\nPREPARING DATASETS...')
+# print('\nPREPARING DATASETS...')
+print('\nデータセットを準備中...')
 #MNIST or HighResolution or CIFAR10
 train_dataloader, test_dataloader, target_model, batch_size, l_inf_bound, n_labels, n_channels, test_set_size = init_params(TARGET)
 
 if TARGET != 'HighResolution':
-    print('CHECKING FOR PRETRAINED TARGET MODEL...')
+    # print('CHECKING FOR PRETRAINED TARGET MODEL...')
+    print('学習済のターゲットモデルをチェック中...')
     try:
         pretrained_target = './checkpoints/target/{}_bs_{}_lbound_{}.pth'.format(TARGET, batch_size, l_inf_bound)
         target_model.load_state_dict(torch.load(pretrained_target))
         target_model.eval()
     except FileNotFoundError:
-        print('\tNO PRETRAINED MODEL FOUND... TRAINING TARGET FROM SCRATCH...')
+        # print('\tNO PRETRAINED MODEL FOUND... TRAINING TARGET FROM SCRATCH...') 
+        print('\t学習済モデルが見つかりませんでした... 一からターゲットを学習させます...') 
         train_target_model(
                             target=TARGET, 
                             target_model=target_model, 
@@ -276,11 +282,13 @@ if TARGET != 'HighResolution':
                             test_dataloader=test_dataloader, 
                             dataset_size=test_set_size
                         )
-print('TARGET LOADED!')
+# print('TARGET LOADED!')
+print('ターゲットロード完了')
 
 
 # train AdvGAN
-print('\nTRAINING ADVGAN...')
+# print('\nTRAINING ADVGAN...')
+print('\nADVGANを学習中...')
 advGAN = AdvGAN_Attack(
                         device, 
                         target_model, 
@@ -302,7 +310,8 @@ advGAN.train(train_dataloader, EPOCHS)
 
 
 # load the trained AdvGAN
-print('\nLOADING TRAINED ADVGAN!')
+# print('\nLOADING TRAINED ADVGAN!')
+print('\n学習済ADVGANのロード完了')
 adv_GAN_path = './checkpoints/AdvGAN/G_epoch_{}.pth'.format(EPOCHS)
 adv_GAN = models.Generator(n_channels, n_channels, TARGET).to(device)
 adv_GAN.load_state_dict(torch.load(adv_GAN_path))
