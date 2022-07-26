@@ -161,12 +161,12 @@ def train_target_model(target, target_model, epochs, train_dataloader, test_data
             train_imgs, train_labels = train_imgs.to(device), train_labels.to(device)
 
             logits_model = target_model(train_imgs)
-            criterion = F.cross_entropy(logits_model, train_labels)
+            criterion = F.cross_entropy(logits_model, train_labels) # 交差エントロピー誤差
             loss_epoch += criterion
             
-            optimizer.zero_grad()
-            criterion.backward()
-            optimizer.step()
+            optimizer.zero_grad() # 勾配を0に
+            criterion.backward() # 誤差逆伝播
+            optimizer.step() # 内部に保存されているgradを更新して反復処理
 
         print('Loss in epoch {}: {}'.format(epoch, loss_epoch.item()))
 
@@ -261,13 +261,14 @@ device = torch.device('cuda' if (use_cuda and torch.cuda.is_available()) else 'c
 
 # print('\nPREPARING DATASETS...')
 print('\nデータセットを準備中...')
-#MNIST or HighResolution or CIFAR10
+# MNIST or HighResolution or CIFAR10
 train_dataloader, test_dataloader, target_model, batch_size, l_inf_bound, n_labels, n_channels, test_set_size = init_params(TARGET)
 
 if TARGET != 'HighResolution':
     # print('CHECKING FOR PRETRAINED TARGET MODEL...')
     print('学習済のターゲットモデルをチェック中...')
     try:
+        # ./checkpoints/target/MNIST_bs_128_lbound_.3.pth
         pretrained_target = './checkpoints/target/{}_bs_{}_lbound_{}.pth'.format(TARGET, batch_size, l_inf_bound)
         target_model.load_state_dict(torch.load(pretrained_target))
         target_model.eval()
