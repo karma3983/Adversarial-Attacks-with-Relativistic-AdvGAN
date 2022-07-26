@@ -239,7 +239,7 @@ def test_attack_performance(target, dataloader, mode, adv_GAN, target_model, bat
     print('Accuracy under attacks in {} {} set: {}%\n'.format(target, mode, 100 * n_correct.item()/dataset_size))
 
 
-print('ここから実行----------------------------------------------------------------------------------------------------')
+# print('ここから実行----------------------------------------------------------------------------------------------------')
 
 # print('\nLOADING CONFIGURATIONS...')
 print('\n設定をロード中...')
