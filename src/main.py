@@ -257,6 +257,7 @@ device = torch.device('cuda' if (use_cuda and torch.cuda.is_available()) else 'c
 
 
 print('\nPREPARING DATASETS...')
+#MNIST or HighResolution or CIFAR10
 train_dataloader, test_dataloader, target_model, batch_size, l_inf_bound, n_labels, n_channels, test_set_size = init_params(TARGET)
 
 if TARGET != 'HighResolution':
