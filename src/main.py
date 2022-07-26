@@ -318,5 +318,6 @@ adv_GAN.load_state_dict(torch.load(adv_GAN_path))
 adv_GAN.eval()
 
 
-print('\nTESTING PERFORMANCE OF ADVGAN...')
+# print('\nTESTING PERFORMANCE OF ADVGAN...')
+print('\nADVGANのパフォーマンスをテスト中...')
 test_attack_performance(target=TARGET, dataloader=test_dataloader, mode='test', adv_GAN=adv_GAN, target_model=target_model, batch_size=batch_size, l_inf_bound=l_inf_bound, dataset_size=test_set_size)
