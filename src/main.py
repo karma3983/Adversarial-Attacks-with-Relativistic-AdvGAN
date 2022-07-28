@@ -32,7 +32,7 @@ import models
 import custom_data as cd
 from advGAN import AdvGAN_Attack
 
-
+import matplotlib.pyplot as plt #plt
 
 def load_hyperparameters(config_file):
     with open(config_file) as hp_file:
