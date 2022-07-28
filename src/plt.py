@@ -23,7 +23,7 @@ for i in range(9):
 
   two = two + 2
 
-  plt.imshow(test_attack_performance.cur_img[i].cpu().detach().numpy().reshape(28,28))
+  plt.imshow(test_attack_performance.adv_img[i].cpu().detach().numpy().reshape(28,28))
   plt.title("pred label: {}".format(test_attack_performance.pred_label[i].item()), fontsize=18) #タイトル
   plt.gray()  
 
