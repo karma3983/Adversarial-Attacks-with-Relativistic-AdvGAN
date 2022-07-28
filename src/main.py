@@ -257,8 +257,7 @@ def test_attack_performance(target, dataloader, mode, adv_GAN, target_model, bat
         two = two + 2
         
         # 偽物の画像と予測値（予測ラベル）
-        # plt.imshow(cur_img[i].cpu().detach().numpy().reshape(28,28))
-        plt.imshow(cur_img[i].cpu().numpy().reshape(28,28))
+        plt.imshow(adv_img[i].cpu().detach().numpy().reshape(28,28))
         plt.title("pred label: {}".format(pred_label[i].item()), fontsize=18) #タイトル
         plt.gray()  
 
